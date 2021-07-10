@@ -8,7 +8,8 @@
             [jackdaw.data :as jd]
             [jackdaw.serdes.avro :as avro]
             [jackdaw.serdes.avro.schema-registry :as reg]
-            [jackdaw.test.fixtures :as fix])
+            [jackdaw.test.fixtures :as fix]
+            [library-candidates.nomis-jackdaw-admin :as nja])
   (:import [org.apache.avro Schema$Parser]
            [org.apache.avro.generic GenericData$Record]
            [org.apache.kafka.common.serialization Serde Serdes]))
@@ -93,6 +94,9 @@
             {:topic-name
              (str "test-topic-" (uuid/v4))
 
+             :partition-count 1
+             :replication-factor 1
+
              :key-serde
              (Serdes/String)
 
@@ -116,6 +120,11 @@
             [[test-topic-v1 {:a "foo"}]
              [test-topic-v2 {:a "foo", :b "bar"}]
              [test-topic-v3 {:a "foo", :b "bar", :c (uuid/v4)}]]]
+
+        (nja/ensure-topics-exist +local-kafka+
+                                 [test-topic-v1
+                                  test-topic-v2
+                                  test-topic-v3])
 
         (doseq [[t r] topic+record]
           (with-open [p (jc/producer +local-kafka+ t)]

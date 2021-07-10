@@ -38,7 +38,9 @@
                  [io.netty/netty-handler-proxy "4.1.63.Final"]
                  [io.netty/netty-resolver "4.1.63.Final"]
                  [io.netty/netty-resolver-dns "4.1.63.Final"]
-                 ]
+
+                 [com.brunobonacci/safely "0.7.0-alpha3"]
+                 [clojurewerkz/propertied "1.3.0"]]
 
   :aliases {"kaocha" ["run" "-m" "kaocha.runner"]}
   :aot [jackdaw.serdes.edn2 jackdaw.serdes.fressian jackdaw.serdes.fn-impl]
